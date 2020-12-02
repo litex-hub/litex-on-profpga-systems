@@ -28,9 +28,26 @@ and provide an infrastructure to easily modify/extend them using LiteX's flexibi
 -----------
 **TODO**
 
-[> Getting started
-------------------
-**TODO**
+[> Prerequisites
+----------------
+- Python3, Vivado.
+- A proFPGA VU19P Board.
+- A proFPGA PCIe Gen3 X8 Adapter Kit.
+
+[> Installing LiteX
+-------------------
+```sh
+$ wget https://raw.githubusercontent.com/enjoy-digital/litex/master/litex_setup.py
+$ chmod +x litex_setup.py
+$ sudo ./litex_setup.py init install
+$ python3 setup.py develop
+```
+
+[> Build and Load the bitstream
+--------------------------------
+```sh
+$ ./profpga_vu19.py --with-pcie --pcie-speed=gen3 --pcie-lanes=4 --pcie-dmas=8 --build --load
+```
 
 [> Tests
 --------

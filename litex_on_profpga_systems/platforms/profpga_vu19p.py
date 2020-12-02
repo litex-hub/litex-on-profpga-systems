@@ -15,11 +15,7 @@ _io = [
         Subsignal("n", Pins("CA40"), IOStandard("LVDS")),
         Subsignal("p", Pins("CA39"), IOStandard("LVDS")),
     ),
-    # Serial
-    ("serial", 0,
-        Subsignal("rx", Pins("BE29"), IOStandard("LVCMOS18")),
-        Subsignal("tx", Pins("BE30"), IOStandard("LVCMOS18")),
-    ),
+
     # EB-PDS-PCIe-Cable-R3 on TA1
     ("pcie_x4", 0,
         Subsignal("rst_n", Pins("E40"), IOStandard("LVCMOS12")),

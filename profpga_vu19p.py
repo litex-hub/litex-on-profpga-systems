@@ -43,6 +43,7 @@ class BaseSoC(SoCCore):
         platform = profpga_vu19p.Platform()
 
         # SoCCore ----------------------------------------------------------------------------------
+        kwargs["uart_name"] = "crossover" # Enforce Crossover UART.
         SoCCore.__init__(self, platform, sys_clk_freq,
             ident          = "LiteX SoC on proFPGA VU19P",
             ident_version  = True,

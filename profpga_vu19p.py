@@ -39,7 +39,7 @@ class _CRG(Module):
 # BaseSoC ------------------------------------------------------------------------------------------
 
 class BaseSoC(SoCCore):
-    def __init__(self, sys_clk_freq=int(200e6), with_pcie=False, pcie_speed="gen3", pcie_lanes=4, **kwargs):
+    def __init__(self, sys_clk_freq=int(200e6), with_pcie=False, pcie_speed="gen3", pcie_lanes=4, pcie_dmas=1, **kwargs):
         platform = profpga_vu19p.Platform()
 
         # SoCCore ----------------------------------------------------------------------------------
@@ -67,7 +67,7 @@ class BaseSoC(SoCCore):
                 bar0_size  = 0x20000)
             platform.add_false_path_constraints(self.crg.cd_sys.clk, self.pcie_phy.cd_pcie.clk)
             self.add_csr("pcie_phy")
-            self.add_pcie(phy=self.pcie_phy, ndmas=1)
+            self.add_pcie(phy=self.pcie_phy, ndmas=pcie_dmas)
 
 # Build --------------------------------------------------------------------------------------------
 
@@ -77,6 +77,7 @@ def main():
     parser.add_argument("--with-pcie",     action="store_true", help="Enable PCIe support")
     parser.add_argument("--pcie-speed",    default="gen3",      help="PCIe speed: gen3 (default) or gen4")
     parser.add_argument("--pcie-lanes",    default="4",         help="PCIe lanes: 4 (default) or 8")
+    parser.add_argument("--pcie-dmas",     default="1",         help="PCIe DMAs: 1 (default) up to 8")
     parser.add_argument("--driver",        action="store_true", help="Generate PCIe driver")
     parser.add_argument("--load",          action="store_true", help="Load bitstream")
     builder_args(parser)
@@ -87,6 +88,7 @@ def main():
         with_pcie  = args.with_pcie,
         pcie_speed = args.pcie_speed,
         pcie_lanes = int(args.pcie_lanes, 0),
+        pcie_dmas  = int(args.pcie_dmas,  0),
         **soc_core_argdict(args))
     builder = Builder(soc, **builder_argdict(args))
     builder.build(run=args.build)

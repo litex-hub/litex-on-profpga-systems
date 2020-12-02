@@ -13,6 +13,7 @@ import argparse
 from migen import *
 
 from litex_on_profpga_systems.platforms import profpga_vu19p
+from litex_on_profpga_systems.adapters.pcie_gen3_8_lane_kit import *
 
 from litex.soc.cores.clock import *
 from litex.soc.integration.soc_core import *
@@ -54,6 +55,10 @@ class BaseSoC(SoCCore):
 
         # PCIe -------------------------------------------------------------------------------------
         if with_pcie:
+            {
+                4: platform.add_extension(pcie_gen3_x4_adapter(site="TA1")), # FIXME: allow site selection.
+                8: platform.add_extension(pcie_gen3_x4_adapter(site="TA1")), # FIXME: allow site selection.
+            }[pcie_lanes]
             pcie_data_width = {
                # Gen3
                "gen3:x4" : 128,

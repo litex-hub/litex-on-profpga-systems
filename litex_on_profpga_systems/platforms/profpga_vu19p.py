@@ -10,36 +10,57 @@ from litex.build.xilinx import XilinxPlatform, VivadoProgrammer
 # IOs ----------------------------------------------------------------------------------------------
 
 _io = [
-    # CLK1
+    # Clk
     ("clk300", 0,
         Subsignal("n", Pins("CA40"), IOStandard("LVDS")),
         Subsignal("p", Pins("CA39"), IOStandard("LVDS")),
-    ),
-
-    # EB-PDS-PCIe-Cable-R3 on TA1
-    ("pcie_x4", 0,
-        Subsignal("rst_n", Pins("E40"), IOStandard("LVCMOS12")),
-        Subsignal("clk_n", Pins("AU10")),
-        Subsignal("clk_p", Pins("AU11")),
-        Subsignal("rx_n",  Pins("AJ1 AK3 AL1 AM3")),
-        Subsignal("rx_p",  Pins("AJ2 AK4 AL2 AM4")),
-        Subsignal("tx_n",  Pins("AL6 AM8 AN6 AP8")),
-        Subsignal("tx_p",  Pins("AL7 AM9 AN7 AP9")),
-    ),
-    ("pcie_x8", 0,
-        Subsignal("rst_n", Pins("E40"), IOStandard("LVCMOS12")),
-        Subsignal("clk_n", Pins("AU10")),
-        Subsignal("clk_p", Pins("AU11")),
-        Subsignal("rx_n",  Pins("AJ1 AK3 AL1 AM3 AN1 AP3 AR1 AT3")),
-        Subsignal("rx_p",  Pins("AJ2 AK4 AL2 AM4 AN2 AP4 AR2 AT4")),
-        Subsignal("tx_n",  Pins("AL6 AM8 AN6 AP8 AR6 AT8 AU6 AV8")),
-        Subsignal("tx_p",  Pins("AL7 AM9 AN7 AP9 AR7 AT9 AU7 AV9")),
     ),
 ]
 
 # Connectors ---------------------------------------------------------------------------------------
 
-_connectors = []
+_connectors = [
+    ("TA1", { # FIXME: use real connector name, fake ones used since no access to documentation.
+        "io0"  : "E40",
+        "io1"  : "AU10",
+        "io2"  : "AU11",
+        "io3"  : "AJ1",
+        "io4"  : "AK3",
+        "io5"  : "AL1",
+        "io6"  : "AM3",
+        "io7"  : "AN1",
+        "io8"  : "AP3",
+        "io9"  : "AR1",
+        "io10" : "AT3",
+        "io11" : "AJ2",
+        "io12" : "AK4",
+        "io13" : "AL2",
+        "io14" : "AM4",
+        "io15" : "AN2",
+        "io16" : "AP4",
+        "io17" : "AR2",
+        "io18" : "AT4",
+        "io19" : "AL6",
+        "io20" : "AM8",
+        "io21" : "AN6",
+        "io22" : "AP8",
+        "io23" : "AR6",
+        "io24" : "AT8",
+        "io25" : "AU6",
+        "io26" : "AV8",
+        "io27" : "AL7",
+        "io28" : "AM9",
+        "io29" : "AN7",
+        "io30" : "AP9",
+        "io31" : "AR7",
+        "io32" : "AT9",
+        "io33" : "AU7",
+        "io34" : "AV9",
+    }),
+    ("TA2", {}), # FIXME: TBD
+    ("TA3", {}), # FIXME: TBD
+    ("TA4", {}), # FIXME: TBD
+]
 
 # Platform -----------------------------------------------------------------------------------------
 

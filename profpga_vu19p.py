@@ -53,41 +53,13 @@ class BaseSoC(SoCCore):
 
         # PCIe -------------------------------------------------------------------------------------
         if with_pcie:
-            # PHY
             self.submodules.pcie_phy = USP19PPCIEPHY(platform, platform.request("pcie_x4"),
                 speed      = "gen3",
                 data_width = 128,
                 bar0_size  = 0x20000)
             platform.add_false_path_constraints(self.crg.cd_sys.clk, self.pcie_phy.cd_pcie.clk)
             self.add_csr("pcie_phy")
-
-            # Endpoint
-            self.submodules.pcie_endpoint = LitePCIeEndpoint(self.pcie_phy, max_pending_requests=8)
-
-            # Wishbone bridge
-            self.submodules.pcie_bridge = LitePCIeWishboneBridge(self.pcie_endpoint,
-                base_address = self.mem_map["csr"])
-            self.add_wb_master(self.pcie_bridge.wishbone)
-
-            # DMA0
-            self.submodules.pcie_dma0 = LitePCIeDMA(self.pcie_phy, self.pcie_endpoint,
-                with_buffering = True, buffering_depth=1024,
-                with_loopback  = True)
-            self.add_csr("pcie_dma0")
-
-            self.add_constant("DMA_CHANNELS", 1)
-
-            # MSI
-            self.submodules.pcie_msi = LitePCIeMSI()
-            self.add_csr("pcie_msi")
-            self.comb += self.pcie_msi.source.connect(self.pcie_phy.msi)
-            self.interrupts = {
-                "PCIE_DMA0_WRITER":    self.pcie_dma0.writer.irq,
-                "PCIE_DMA0_READER":    self.pcie_dma0.reader.irq,
-            }
-            for i, (k, v) in enumerate(sorted(self.interrupts.items())):
-                self.comb += self.pcie_msi.irqs[i].eq(v)
-                self.add_constant(k + "_INTERRUPT", i)
+            self.add_pcie(phy=self.pcie_phy, ndmas=1)
 
 # Build --------------------------------------------------------------------------------------------
 

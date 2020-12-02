@@ -73,9 +73,6 @@ def main():
     soc_core_args(parser)
     args = parser.parse_args()
 
-    # Enforce arguments
-    args.csr_data_width = 32
-
     soc =  BaseSoC(
         with_pcie     = args.with_pcie,
         **soc_core_argdict(args))

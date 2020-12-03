@@ -55,10 +55,7 @@ class BaseSoC(SoCCore):
 
         # PCIe -------------------------------------------------------------------------------------
         if with_pcie:
-            {
-                4: platform.add_extension(pcie_gen3_x4_adapter(site="TA1")), # FIXME: allow site selection.
-                8: platform.add_extension(pcie_gen3_x4_adapter(site="TA1")), # FIXME: allow site selection.
-            }[pcie_lanes]
+            platform.add_extension(pcie_gen3_8_lane_adapter(site="TA1", lanes=pcie_lanes)) # FIXME: allow site selection.
             pcie_data_width = {
                # Gen3
                "gen3:x4" : 128,

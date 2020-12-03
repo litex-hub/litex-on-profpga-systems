@@ -40,7 +40,9 @@ class _CRG(Module):
 # BaseSoC ------------------------------------------------------------------------------------------
 
 class BaseSoC(SoCCore):
-    def __init__(self, sys_clk_freq=int(200e6), with_pcie=False, pcie_speed="gen3", pcie_lanes=4, pcie_dmas=1, **kwargs):
+    def __init__(self, sys_clk_freq=int(200e6),
+        with_pcie=False, pcie_site="TA1", pcie_speed="gen3", pcie_lanes=4, pcie_dmas=1,
+        **kwargs):
         platform = profpga_vu19p.Platform()
 
         # SoCCore ----------------------------------------------------------------------------------
@@ -55,7 +57,7 @@ class BaseSoC(SoCCore):
 
         # PCIe -------------------------------------------------------------------------------------
         if with_pcie:
-            platform.add_extension(pcie_gen3_8_lane_adapter(site="TA1", lanes=pcie_lanes)) # FIXME: allow site selection.
+            platform.add_extension(pcie_gen3_8_lane_adapter(site=pcie_site, lanes=pcie_lanes))
             pcie_data_width = {
                # Gen3
                "gen3:x4" : 128,
@@ -78,6 +80,7 @@ def main():
     parser = argparse.ArgumentParser(description="LiteX SoC on proFPGA VU19P")
     parser.add_argument("--build",         action="store_true", help="Build bitstream")
     parser.add_argument("--with-pcie",     action="store_true", help="Enable PCIe support")
+    parser.add_argument("--pcie-site",     default="TA1",       help="PCIe site: TA1 (default)")
     parser.add_argument("--pcie-speed",    default="gen3",      help="PCIe speed: gen3 (default) or gen4")
     parser.add_argument("--pcie-lanes",    default="4",         help="PCIe lanes: 4 (default) or 8")
     parser.add_argument("--pcie-dmas",     default="1",         help="PCIe DMAs: 1 (default) up to 8")
@@ -89,6 +92,7 @@ def main():
 
     soc =  BaseSoC(
         with_pcie  = args.with_pcie,
+        pcie_site  = args.pcie_site,
         pcie_speed = args.pcie_speed,
         pcie_lanes = int(args.pcie_lanes, 0),
         pcie_dmas  = int(args.pcie_dmas,  0),

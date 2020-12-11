@@ -7,7 +7,7 @@
 
 {
     # PHY ----------------------------------------------------------------------
-    "phy":                 "USP19PPCIEPHY", # Type of PCIe PHY
+    "phy":                 "USPPCIEPHY",    # Type of PCIe PHY
     "phy_device":          "xcvu",          # Type of Device
     "phy_speed":           "gen3",          # PCIe speed
     "phy_lanes":           8,               # Number of lanes

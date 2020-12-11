@@ -49,6 +49,12 @@ $ python3 setup.py develop
 $ ./profpga_vu19.py --with-pcie --pcie-speed=gen3 --pcie-lanes=4 --pcie-dmas=8 --build --load
 ```
 
+[> Build LitePCIe standalone core for the ProFPGA VU19 and PCIe Gen3 X8 Adapter Kit
+-----------------------------------------------------------------------------------
+```sh
+$ ./litepcie_gen litepcie_profpga_vu19p.yml
+```
+
 [> Tests
 --------
 **TODO**
